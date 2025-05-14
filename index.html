@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Scorched Earth</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <div class="game-wrapper">
+        <h1>Scorched Earth</h1>
+        
+        <!-- Game canvas in its own container -->
+        <div class="game-container">
+            <canvas id="gameCanvas"></canvas>
+        </div>
+        
+        <!-- Controls moved outside the canvas -->
+        <div class="controls-container">
+            <div class="player-section">
+                <div class="player-info player1">
+                    <h3>Player 1</h3>
+                    <div class="power-angle">
+                        <div class="stat-display">Power: <span id="powerValue1">50</span></div>
+                        <div class="stat-display">Angle: <span id="angleValue1">45</span>° <span class="angle-direction">(0°: right, 90°: up, 180°: left)</span></div>
+                    </div>
+                </div>
+                
+                <div class="player-info player2">
+                    <h3>Player 2</h3>
+                    <div class="power-angle">
+                        <div class="stat-display">Power: <span id="powerValue2">50</span></div>
+                        <div class="stat-display">Angle: <span id="angleValue2">45</span>° <span class="angle-direction">(0°: left, 90°: up, 180°: right)</span></div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="keyboard-controls">
+                <h4>Keyboard Controls</h4>
+                <ul>
+                    <li>↑/↓: Adjust Power</li>
+                    <li>←/→: Adjust Angle</li>
+                    <li>Space/Enter: Fire</li>
+                </ul>
+            </div>
+        </div>
+    </div>
+    <script src="game.js"></script>
+</body>
+</html>
