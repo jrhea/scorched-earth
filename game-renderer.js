@@ -108,10 +108,12 @@ class GameRenderer {
         this.ctx.fillStyle = gradient;
         this.ctx.fill();
         
-        // Draw rock layer
-        this.ctx.fillStyle = '#555';
-        this.ctx.fillRect(0, this.engine.rockLayerHeight, this.canvas.width, 
-            this.canvas.height - this.engine.rockLayerHeight);
+        // Draw sedimentary rock bedrock that respects the rockLayerHeight from model
+        const bedrockHeight = this.canvas.height - this.engine.rockLayerHeight;
+        
+        // Fill the bedrock area with a solid color
+        this.ctx.fillStyle = '#444444';
+        this.ctx.fillRect(0, this.engine.rockLayerHeight, this.canvas.width, bedrockHeight);
     }
     
     /**

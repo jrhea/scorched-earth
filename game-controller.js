@@ -146,7 +146,7 @@ class GameController {
     handleProjectileAnimation() {
         // Update projectile physics multiple times per frame for smoother/faster animation
         // without changing the actual physics constants
-        for (let i = 0; i < 3; i++) {
+        for (let i = 0; i < 2; i++) {
             this.model.updateProjectile();
             
             // Check for collisions after each update

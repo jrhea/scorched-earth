@@ -28,7 +28,7 @@ class GameModel {
         // Game state
         this.terrain = null;
         this.players = null;
-        this.rockLayerHeight = this.height * 0.95; // Hard rock layer below which terrain can't be destroyed
+        this.rockLayerHeight = this.height * 0.98; // Hard rock layer below which terrain can't be destroyed
         
         // Initialize game state
         this.initGame();
@@ -42,7 +42,7 @@ class GameModel {
     updateDimensions(width, height) {
         this.width = width || this.width;
         this.height = height || this.height;
-        this.rockLayerHeight = this.height * 0.95;
+        this.rockLayerHeight = this.height * 0.98;
         
         // Reposition players on terrain after resize
         if (this.players && this.terrain) {
@@ -155,9 +155,6 @@ class GameModel {
     generateTerrain() {
         // Create a smoother terrain using a combination of sine waves and interpolation
         this.terrain = [];
-        
-        // Define the hard rock layer height - 95% of game area height
-        this.rockLayerHeight = this.height * 0.95;
         
         // Start and end points with consistent height
         const baseHeight = this.height * 0.6;
