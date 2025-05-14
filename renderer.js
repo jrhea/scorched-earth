@@ -1,12 +1,11 @@
 /**
- * GameRenderer - Handles all rendering and UI-related operations.
- * This class follows the View part of the MVC pattern.
+ * Renderer - Handles all rendering and UI-related operations.
  */
-class GameRenderer {
+class Renderer {
     /**
      * Constructor to initialize the UI manager
      * @param {HTMLCanvasElement} canvas - The game canvas element
-     * @param {GameModel} engine - The game model instance for state access
+     * @param {Model} engine - The game model instance for state access
      */
     constructor(canvas, engine) {
         // Store references
@@ -303,5 +302,5 @@ class GameRenderer {
     }
 }
 
-// Export the GameRenderer class
-export { GameRenderer };
+// Export the Renderer class
+export { Renderer };

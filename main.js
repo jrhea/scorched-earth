@@ -1,13 +1,13 @@
 // Import the necessary components for our MVC architecture
-import { GameModel } from './game-model.js';
-import { GameRenderer } from './game-renderer.js';
-import { GameController } from './game-controller.js';
+import { Model } from './model.js';
+import { Renderer } from './renderer.js';
+import { Controller } from './controller.js';
 
 /**
- * Main entry point for the Scorched Earth game using MVC architecture:
- * - GameEngine (Model): Handles game state and logic
- * - UIManager (View): Handles rendering and display
- * - GameController (Controller): Manages user input and coordinates between model and view
+ * Main entry point for the Scorched Earth game:
+ * - Model: Handles game state and logic
+ * - Renderer: Handles rendering and display
+ * - Controller: Manages user input and coordinates between model and view
  */
 document.addEventListener('DOMContentLoaded', () => {
     // Get the canvas element
@@ -22,9 +22,9 @@ document.addEventListener('DOMContentLoaded', () => {
     canvas.height = 700; // Fixed height for consistent gameplay
     
     // Create the game components
-    const model = new GameModel(canvas.width, canvas.height);
-    const renderer = new GameRenderer(canvas, model);
-    const controller = new GameController(canvas);
+    const model = new Model(canvas.width, canvas.height);
+    const renderer = new Renderer(canvas, model);
+    const controller = new Controller(canvas);
     
     // Connect the components
     controller.init(model, renderer);

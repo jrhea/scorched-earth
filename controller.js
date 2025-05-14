@@ -1,8 +1,7 @@
 /**
- * GameController - Handles user input and orchestrates the game components.
- * This class follows the Controller part of the MVC pattern.
+ * Controller - Handles user input and orchestrates the game components.
  */
-class GameController {
+class Controller {
     /**
      * Constructor to initialize the game controller
      * @param {HTMLCanvasElement} canvas - The game canvas element
@@ -39,8 +38,8 @@ class GameController {
     
     /**
      * Initialize the game with renderer and game model
-     * @param {GameModel} model - The game model instance
-     * @param {GameRenderer} renderer - The renderer instance
+     * @param {Model} model - The game model instance
+     * @param {Renderer} renderer - The renderer instance
      */
     init(model, renderer) {
         this.model = model;
@@ -290,4 +289,4 @@ class GameController {
 }
 
 // Export the controller class
-export { GameController };
+export { Controller };

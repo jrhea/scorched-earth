@@ -1,8 +1,7 @@
 /**
- * GameModel - Pure game logic and physics with no UI dependencies.
- * This class follows the Model part of the MVC pattern.
+ * Model - Pure game logic and physics with no UI dependencies.
  */
-class GameModel {
+class Model {
     /**
      * Constructor to initialize the game engine
      * @param {number} width - The game area width
@@ -478,5 +477,5 @@ class GameModel {
 
 }
 
-// Export the GameModel class
-export { GameModel };
+// Export the Model class
+export { Model };
