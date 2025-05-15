@@ -40,17 +40,10 @@ class Renderer {
                 this.powerValues[i].textContent = this.engine.playerPower[i];
             }
             
-            // Calculate angle and direction hint
+            // Calculate angle
             const angle = this.engine.playerAngle[i];
-            let directionHint = '';
-            
-            // Add direction hints based on angle
-            if (angle < 10) directionHint = i === 0 ? "(Right)" : "(Left)";
-            else if (angle > 170) directionHint = i === 0 ? "(Left)" : "(Right)";
-            else if (angle > 80 && angle < 100) directionHint = "(Up)";
-            
             if (this.angleValues[i]) {
-                this.angleValues[i].textContent =`${angle}${directionHint}`;
+                this.angleValues[i].textContent =`${angle}`;
             }
         }
         
@@ -64,8 +57,6 @@ class Renderer {
                 }
             }
         });
-        
-        // Wind is now drawn directly on the canvas in drawWind()
     }
     
     /**
@@ -116,7 +107,7 @@ class Renderer {
     }
     
     /**
-     * Draw the players (tanks) based on game engine state
+     * Draw the players based on game engine state
      */
     drawPlayers() {
         if (!this.engine.players) return;
@@ -231,7 +222,7 @@ class Renderer {
         if (!this.engine) return;
         
         // Get wind data
-        const absWind = Math.abs(Math.round(this.engine.windSpeed * 100));
+        const absWind = Math.abs(Math.round(this.engine.windSpeed));
         
         // Draw wind value text
         this.ctx.font = 'bold 16px Arial';

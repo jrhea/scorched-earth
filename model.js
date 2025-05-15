@@ -13,8 +13,8 @@ class Model {
         this.height = height || 700;
         
         // Game settings
-        this.gravity = 0.15;  // Gravity for projectile physics
-        this.windSpeed = 0;   // Current wind speed affecting projectiles
+        this.gravity = 9.8;
+        this.windSpeed = 0;
         this.currentPlayer = 0;
         this.gameOver = false;
         this.explosion = null; // Track active explosion
@@ -28,9 +28,6 @@ class Model {
         this.terrain = null;
         this.players = null;
         this.rockLayerHeight = this.height * 0.98; // Hard rock layer below which terrain can't be destroyed
-        
-        // Initialize game state
-        this.initGame();
     }
     
     /**
@@ -152,7 +149,7 @@ class Model {
     
     // Game core logic methods
     generateTerrain() {
-        // Create a smoother terrain using a combination of sine waves and interpolation
+        // Generate terrain points
         this.terrain = [];
         
         // Start and end points with consistent height
@@ -247,17 +244,20 @@ class Model {
         this.turnInProgress = true;
         
         const player = this.players[this.currentPlayer];
-        const power = this.playerPower[this.currentPlayer] / 5;  // Scaled power factor
+        const initialVelocity = this.playerPower[this.currentPlayer] * 2.5;  // Translates to roughly 250m/s
         const rawAngle = this.playerAngle[this.currentPlayer];
         
         // Convert degrees to radians and adjust for proper orientation
         const angle = (180 - rawAngle) * Math.PI / 180;
         
+        // Calculate initial position further from the tank to avoid immediate collision
+        const startDistance = 25; // Distance from center of tank to avoid collision
+        
         this.projectile = {
-            x: player.x + Math.cos(angle) * 20,
-            y: player.y - 10 - Math.sin(angle) * 20,
-            vx: Math.cos(angle) * power,
-            vy: -Math.sin(angle) * power, // Negative because y-axis is inverted
+            x: player.x + Math.cos(angle) * startDistance,
+            y: player.y - 10 - Math.sin(angle) * startDistance,
+            vx: Math.cos(angle) * initialVelocity + this.windSpeed / 37.5,  // 37.5 is a manually tuned constant
+            vy: -Math.sin(angle) * initialVelocity, // Negative because y-axis is inverted
             trail: []
         };
         
@@ -267,15 +267,28 @@ class Model {
     
     /**
      * Update the projectile position based on physics
+     * @param {number} deltaTime - Time elapsed since last frame in seconds
      */
-    updateProjectile() {
+    updateProjectile(deltaTime = 1/30) {
         if (!this.projectileInFlight || !this.projectile) return;
         
-        // Update projectile position with physics
-        this.projectile.vy += this.gravity;
-        this.projectile.vx += this.windSpeed * 0.01;  // Wind effect
-        this.projectile.x += this.projectile.vx * 1.5;  // Horizontal movement
-        this.projectile.y += this.projectile.vy * 1.5;  // Vertical movement
+        // Gravity acceleration (pixels/sec^2)
+        const g = this.gravity;
+        
+        // Air resistance - proportional to velocity squared, opposing motion
+        const airResistance = 0.001; // Resistance coefficient
+        
+        // Calculate drag forces (opposite to velocity direction, proportional to v^2)
+        const dragX = -airResistance * this.projectile.vx * Math.abs(this.projectile.vx);
+        const dragY = -airResistance * this.projectile.vy * Math.abs(this.projectile.vy);
+        
+        // Update velocities based on all forces
+        this.projectile.vx += dragX * deltaTime;
+        this.projectile.vy += (g + dragY) * deltaTime;
+        
+        // Update position with current velocity (d = vt)
+        this.projectile.x += this.projectile.vx * deltaTime;
+        this.projectile.y += this.projectile.vy * deltaTime;
         
         // Add to trail
         this.projectile.trail.push({ x: this.projectile.x, y: this.projectile.y });
@@ -455,18 +468,15 @@ class Model {
     }
     
     generateWind() {
-        // Generate random wind (-1.0 to 1.0)
-        this.windSpeed = (Math.random() * 2 - 1) * 0.5; // Scale down for gameplay
-        
-        // Round to 2 decimal places
-        this.windSpeed = Math.round(this.windSpeed * 100) / 100;
+        // Generate random wind (-50 mps to 50 mps)
+        this.windSpeed = Math.round((Math.random() * 2 - 1) * 100) / 2;
     }
     
     switchPlayer() {
         if (this.gameOver) return;
 
-        // Generate new random wind for next turn (-1.0 to 1.0)
-        this.windSpeed = (Math.random() - 0.5) * 2;
+        // Generate new random wind for next turn
+        this.generateWind();
         
         this.currentPlayer = this.currentPlayer === 0 ? 1 : 0;
         
